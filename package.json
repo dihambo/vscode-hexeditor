@@ -80,6 +80,21 @@
             "type": "boolean",
             "default": false,
             "description": "%hexeditor.showOpenFileButton%"
+          },
+          "hexEditor.defaultCopyFormat": {
+            "type": "string",
+            "enum": [
+              "Hex",
+              "Literal",
+              "Utf8",
+              "C",
+              "Go",
+              "Java",
+              "JSON",
+              "Base64"
+            ],
+            "default": "Hex",
+            "description": "Default format for copy operations in hex editor."
           }
         }
       }

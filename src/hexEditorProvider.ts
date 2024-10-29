@@ -9,6 +9,7 @@ import {
 	HexDocumentEditReference,
 } from "../shared/hexDocumentModel";
 import {
+	CopyFormat,
 	Endianness,
 	ExtensionHostMessageHandler,
 	FromWebviewMessage,
@@ -35,6 +36,7 @@ const defaultEditorSettings: Readonly<IEditorSettings> = {
 	showDecodedText: true,
 	defaultEndianness: Endianness.Little,
 	inspectorType: InspectorLocation.Aside,
+	defaultCopyFormat: CopyFormat.Hex,
 };
 
 const editorSettingsKeys = Object.keys(defaultEditorSettings) as readonly (keyof IEditorSettings)[];

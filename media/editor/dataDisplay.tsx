@@ -5,12 +5,8 @@ import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } fr
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { HexDecorator } from "../../shared/decorators";
 import { EditRangeOp, HexDocumentEditOp } from "../../shared/hexDocumentModel";
-import {
-	CopyFormat,
-	DeleteAcceptedMessage,
-	InspectorLocation,
-	MessageType,
-} from "../../shared/protocol";
+import { DeleteAcceptedMessage, InspectorLocation, MessageType } from "../../shared/protocol";
+import { binarySearch } from "../../shared/util/binarySearch";
 import { Range } from "../../shared/util/range";
 import { PastePopup } from "./copyPaste";
 import _style from "./dataDisplay.css";
@@ -36,7 +32,6 @@ import {
 	parseHexDigit,
 	throwOnUndefinedAccessInDev,
 } from "./util";
-import { binarySearch } from "../../shared/util/binarySearch";
 
 const style = throwOnUndefinedAccessInDev(_style);
 
@@ -291,13 +286,19 @@ export const DataDisplay: React.FC = () => {
 		}
 	});
 
+	const editorSettings = useRecoilValue(select.editorSettings);
 	useGlobalHandler<ClipboardEvent>("copy", () => {
-		if (ctx.focusedElement) {
-			select.messageHandler.sendEvent({
-				type: MessageType.DoCopy,
-				selections: ctx.selection.map(r => [r.start, r.end]),
-				format: ctx.focusedElement.char ? CopyFormat.Utf8 : CopyFormat.Base64,
-			});
+		try {
+			let copyFormatSetting = editorSettings.defaultCopyFormat;
+			if (ctx.focusedElement) {
+				select.messageHandler.sendEvent({
+					type: MessageType.DoCopy,
+					selections: ctx.selection.map(r => [r.start, r.end]),
+					format: copyFormatSetting,
+				});
+			}
+		} catch (error) {
+			console.error("Error in copy format handler:", error);
 		}
 	});
 

@@ -187,6 +187,11 @@ export const showDecodedText = selector({
 	get: ({ get }) => get(editorSettings).showDecodedText,
 });
 
+export const defaultCopyFormat = selector({
+	key: "defaultCopyFormat",
+	get: ({ get }) => get(editorSettings).defaultCopyFormat,
+});
+
 // Atom used to invalidate data when a reload is requested.
 const reloadGeneration = atom({
 	key: "reloadGeneration",
@@ -469,7 +474,7 @@ export const decoratorsPage = selectorFamily({
 			const searcherByEnd = binarySearch<HexDecorator>(decorator => decorator.range.end);
 			const startIndex = searcherByEnd(pageSize * pageNumber, allDecorators);
 			const searcherByStart = binarySearch<HexDecorator>(d => d.range.start);
-			const endIndex = searcherByStart(pageSize * pageNumber + pageSize+1, allDecorators);
+			const endIndex = searcherByStart(pageSize * pageNumber + pageSize + 1, allDecorators);
 			return allDecorators.slice(startIndex, endIndex);
 		},
 });

@@ -63,6 +63,7 @@ export interface IEditorSettings {
 	columnWidth: number;
 	inspectorType: InspectorLocation;
 	defaultEndianness: Endianness;
+	defaultCopyFormat: CopyFormat;
 }
 
 export interface ICodeSettings {
